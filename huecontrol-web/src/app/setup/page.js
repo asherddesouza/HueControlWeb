@@ -1,20 +1,16 @@
-'use client'
+import Setup from "./page.client"
 
-export default function Setup() {
-    // const v3 = require('node-hue-api').v3;
-    // async function getBridge() {
-    //     const results = await v3.discovery.nupnpSearch();
-    
-    //     // Results will be an array of bridges that were found
-    //     console.log(JSON.stringify(results, null, 2));
-    //   }
+const v3 = require('node-hue-api').v3;
 
+async function getBridgeDetails() {
+    const results = await v3.discovery.nupnpSearch();
+    console.log(JSON.stringify(results, null, 2))
+    return results;
+}
 
-
+export default async function Page() {
+    const bridgeInfo = await getBridgeDetails();
     return (
-        <main>
-            <h1>Setup Page</h1>
-            <button onClick={null}></button>
-        </main>
+        <Setup bridgeInfo={bridgeInfo} />
     )
 }
