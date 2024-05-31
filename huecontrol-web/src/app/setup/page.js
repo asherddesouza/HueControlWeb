@@ -3,9 +3,9 @@ import Setup from "./page.client"
 const v3 = require('node-hue-api').v3;
 
 async function getBridgeDetails() {
-    const results = await v3.discovery.nupnpSearch();
-    console.log(JSON.stringify(results, null, 2))
-    return results;
+    const results = await v3.discovery.upnpSearch();
+    let parsedResults = (JSON.stringify(results, null, 2))
+    return parsedResults;
 }
 
 export default async function Page() {
