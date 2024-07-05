@@ -1,5 +1,7 @@
 'use client'
 
+import Navbar from "../components/navbar/navbar";
+
 interface Model {
     number: string;
     description: string;
@@ -20,7 +22,7 @@ interface Icon {
     url: string;
 }
 
-interface BridgeInfo {
+export interface BridgeInfo {
     name: string;
     manufacturer: string;
     ipaddress: string;
@@ -40,8 +42,12 @@ export default function Setup({bridgeInfo}: SetupProps) {
     }
     return (
         <main>
-            <h1>Setup Page</h1>
+            <Navbar/>
+            <h1>Welcome to HueControl!</h1>
+            <p>a simple app to control your Philips hue lightbulbs.</p>
+            <p>Made using TypeScript & Next.js</p>
             <button onClick={getBridge}>Get Bridges</button>
+            <footer>© Asher De Souza 2024</footer>
         </main>
     )
 }
