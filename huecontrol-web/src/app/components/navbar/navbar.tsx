@@ -1,13 +1,14 @@
 import { Fragment } from "react";
-import styles from "./navbar.module.css"
+import "./navbar.css"
 
 export default function Navbar() {
     return(
-        <Fragment>
+        <div>
             <ul>
-                <li><a href="setup">Setup</a></li>
+                <li><a href="setup" className={"active"}>Setup</a></li>
                 <li><a href="dashboard">Dashboard</a></li>
+                <li  className={"settings"}><a href="settings">Settings</a></li>
             </ul>
-        </Fragment>
+        </div>
     )
 }

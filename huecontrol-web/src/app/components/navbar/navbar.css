@@ -2,11 +2,12 @@ ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    position: fixed;
+    overflow: hidden;
+    background-color: #333;
   }
 
 li {
-display: inline;
+  float:left
 }
 
 li a {
@@ -25,3 +26,7 @@ background-color: #111;
 .active {
     background-color: #04AA6D;
   }
+
+.settings {
+  float: right;
+}
