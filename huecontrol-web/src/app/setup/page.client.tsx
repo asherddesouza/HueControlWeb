@@ -1,6 +1,8 @@
 "use client";
 
+import Button from "../components/button/button";
 import Navbar from "../components/navbar/navbar";
+import { HueUser } from "./page";
 import styles from "./page.module.css";
 
 interface Model {
@@ -34,13 +36,19 @@ export interface BridgeInfo {
 
 interface SetupProps {
   bridgeInfo: BridgeInfo;
+  setupUser: HueUser;
 }
 
-export default function Setup({ bridgeInfo }: SetupProps) {
+export default function Setup({ bridgeInfo, setupUser }: SetupProps) {
   function getBridge() {
     let parsedResults = JSON.stringify(bridgeInfo, null, 2);
     console.log(parsedResults);
   }
+
+  function getUserDetails() {
+    console.log(`User: ${setupUser}`);
+  }
+
   return (
     <main>
       <Navbar />
@@ -53,11 +61,28 @@ export default function Setup({ bridgeInfo }: SetupProps) {
         </div>
 
         <div className={styles.background}>
-          <button onClick={getBridge}>Get Bridges</button>
+          <Button content={"Get Bridges"} onClickEvent={getBridge} />
+          <Button content={"Get User"} onClickEvent={getUserDetails} />
+          <p>‎ </p>
+          <p>‎ </p>
+          <p>‎ </p>
+          <p>‎ </p>
+          <p>‎ </p>
+          <p>‎ </p>
+          <p>‎ </p>
+          <p>‎ </p>
+          <p>‎ </p>
+          <p>‎ </p>
+          <p>‎ </p>
+          <p>‎ </p>
+          <p>‎ </p>
+          <p>‎ </p>
+          <p>‎ </p>
+          <p>‎ </p>
         </div>
-      </div>
 
-      <footer>© Asher De Souza 2024</footer>
+        <div className={styles.footer}>© Asher De Souza 2024</div>
+      </div>
     </main>
   );
 }
