@@ -1,4 +1,5 @@
 import Setup, { BridgeInfo } from "./page.client";
+import React, { ReactHTMLElement, useEffect } from "react";
 
 const v3 = require("node-hue-api").v3;
 
@@ -25,11 +26,11 @@ async function getBridgeDetails() {
   }
 }
 
-async function discoverAndCreateUser(): Promise<HueUser | null> {
+async function discoverAndCreateUser(): Promise<HueUser> {
   const ipAddress = await getBridgeDetails();
 
   if (!ipAddress) {
-    return null;
+    console.error("IP Address not found");
   }
 
   // Create an unauthenticated instance of the Hue API so that we can create a new user
@@ -77,18 +78,13 @@ async function discoverAndCreateUser(): Promise<HueUser | null> {
       console.error(`Unexpected Error: ${err.message}`);
     }
 
-    return null;
+    return { username: "", clientkey: "" };
   }
 }
 
 export default async function Page() {
   const bridgeInfo: BridgeInfo = await getBridgeDetails();
-  const setupUser: HueUser | null = await discoverAndCreateUser();
-
-  if (!bridgeInfo || !setupUser) {
-    let setupUser = { username: "", clientkey: "" }; // Create a blank/fake user
-    return <Setup bridgeInfo={bridgeInfo} setupUser={setupUser} />;
-  }
+  const setupUser: HueUser = await discoverAndCreateUser();
 
   return <Setup bridgeInfo={bridgeInfo} setupUser={setupUser} />;
 }

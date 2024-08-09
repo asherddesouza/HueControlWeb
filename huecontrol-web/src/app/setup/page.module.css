@@ -38,3 +38,8 @@
   background-color: #333333;
   color: white;
 }
+
+.error {
+  border: red;
+  border-radius: 10px;
+}

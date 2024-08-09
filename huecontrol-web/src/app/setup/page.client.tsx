@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import Button from "../components/button/button";
 import Navbar from "../components/navbar/navbar";
 import { HueUser } from "./page";
@@ -45,9 +46,14 @@ export default function Setup({ bridgeInfo, setupUser }: SetupProps) {
     console.log(parsedResults);
   }
 
-  function getUserDetails() {
+  const getUserDetails = () => {
+    // useEffect(() => {
+    //   if (setupUser.username === "" && setupUser.clientkey === "") {
+    //     <div className="error">ONOE IS BROKED</div>;
+    //   }
+    // });
     console.log(`User: ${setupUser}`);
-  }
+  };
 
   return (
     <main>
@@ -63,6 +69,10 @@ export default function Setup({ bridgeInfo, setupUser }: SetupProps) {
         <div className={styles.background}>
           <Button content={"Get Bridges"} onClickEvent={getBridge} />
           <Button content={"Get User"} onClickEvent={getUserDetails} />
+          <p>‎ </p>
+          <p>‎ </p>
+          <p>‎ </p>
+          <p>‎ </p>
           <p>‎ </p>
           <p>‎ </p>
           <p>‎ </p>
