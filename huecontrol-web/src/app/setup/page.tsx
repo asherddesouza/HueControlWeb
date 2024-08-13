@@ -1,7 +1,18 @@
 import Setup, { BridgeInfo } from "./page.client";
-import React, { ReactHTMLElement, useEffect } from "react";
+import React, { ReactHTMLElement, useState } from "react";
 
 const v3 = require("node-hue-api").v3;
+const LightState = v3.lightStates.LightState;
+
+const USERNAME = "yXTlszolo9DeYSSyUR5FbGk5QTLcc2jURwA9mQai";
+const LIGHT_ID = 5;
+const CLIENT_KEY = "56A044BFE37EC7D5EA07859655D6F1BD";
+
+// 1 = Bedroom 1
+// 2 = Living Room
+// 3 = Kitchen
+// 4 = Hallway
+// 5 = My Room
 
 const appName = "hue-control-web";
 const deviceName = "example-code";
@@ -20,7 +31,7 @@ async function getBridgeDetails() {
 
   if (results.length === 0) {
     console.error(`Couldn't find any bridges.`);
-    return null;
+    //return null;
   } else {
     return results[0].ipaddress;
   }
@@ -82,7 +93,32 @@ async function discoverAndCreateUser(): Promise<HueUser> {
   }
 }
 
+// async function changeLightsToOff(): Promise<boolean> {
+//   try {
+//     const searchResults = await v3.discovery.nupnpSearch();
+//     const host = searchResults[0].ipaddress;
+//     const api = await v3.api.createLocal(host).connect(USERNAME);
+
+//     // Using a LightState object to build the desired state
+//     const state = new LightState().off();
+
+//     const result = await api.lights.setLightState(LIGHT_ID, state);
+//     console.log(`Light state change was successful? ${result}`);
+
+//     return result;
+//   } catch (error) {
+//     console.error("Error changing light state", error);
+//     return false;
+//   }
+// }
+
 export default async function Page() {
+  // const [lightStatus, setLightStatus] = useState(false);
+
+  // const updateCurrentLightStatus = async (newStatus: Promise<boolean>) => {
+  //   setLightStatus(await newStatus);
+  // };
+
   const bridgeInfo: BridgeInfo = await getBridgeDetails();
   const setupUser: HueUser = await discoverAndCreateUser();
 
