@@ -6,12 +6,11 @@ import Navbar from "../components/navbar/navbar";
 import { HueUser } from "./page";
 import styles from "./page.module.css";
 
-// const v3 = require("node-hue-api").v3;
-// const LightState = v3.lightStates.LightState;
+const USERNAME = "yXTlszolo9DeYSSyUR5FbGk5QTLcc2jURwA9mQai";
+const LIGHT_ID = 5;
+const CLIENT_KEY = "56A044BFE37EC7D5EA07859655D6F1BD";
 
-// const USERNAME = "yXTlszolo9DeYSSyUR5FbGk5QTLcc2jURwA9mQai";
-// const LIGHT_ID = 5;
-// const CLIENT_KEY = "56A044BFE37EC7D5EA07859655D6F1BD";
+// const v3 = require("node-hue-api").v3;
 
 // 1 = Bedroom 1
 // 2 = Living Room
@@ -51,29 +50,23 @@ export interface BridgeInfo {
 interface SetupProps {
   bridgeInfo: BridgeInfo;
   setupUser: HueUser;
+  // lightState: Object;
+  // allLights: Object;
 }
 
-export default function Setup({ bridgeInfo, setupUser }: SetupProps) {
+export default function Setup({
+  bridgeInfo,
+  setupUser,
+}: // lightState,
+SetupProps) {
+  // const LightState = v3.lightStates.LightState;
+
+  // const lightOff = new LightState().off();
+  // const lightOn = new LightState().on().bri(255);
+
   const [userStatus, setUserStatus] = useState(false);
 
-  function lightOn(): void {
-    // try {
-    //   const host = bridgeInfo;
-    //   const api = await v3.api.createLocal(host).connect(USERNAME);
-    //   // Using a LightState object to build the desired state
-    //   const state = new LightState().on().ct(200).brightness(100);
-    //   const result = await api.lights.setLightState(LIGHT_ID, state);
-    //   console.log(`Light state change was successful? ${result}`);
-    //   return result;
-    // } catch (error) {
-    //   console.error("Error changing light state", error);
-    //   return false;
-    // }
-  }
-
-  const lightOff = async () => {
-    console.log(`(IP:${bridgeInfo}, Type: ${typeof bridgeInfo})`);
-  };
+  // console.log(`(IP:${bridgeInfo}, Type: ${typeof bridgeInfo})`);/
 
   function getBridge() {
     console.log(bridgeInfo);
@@ -101,8 +94,8 @@ export default function Setup({ bridgeInfo, setupUser }: SetupProps) {
         <div className={styles.background}>
           <Button content={"Get Bridges"} onClickEvent={getBridge} />
           <Button content={"Get User"} onClickEvent={getUserDetails} />
-          <Button content={"Turn Light On"} onClickEvent={lightOn} />
-          <Button content={"Turn Light Off"} onClickEvent={lightOff} />
+          <Button content={"Turn Light On"} onClickEvent={() => {}} />
+          <Button content={"Turn Light Off"} onClickEvent={() => {}} />
           {userStatus ? (
             <div className={styles.error}>
               Username: {setupUser.username}, Key: {setupUser.clientkey}

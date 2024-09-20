@@ -1,8 +1,12 @@
+"use server";
+
 import Setup, { BridgeInfo } from "./page.client";
 import React, { ReactHTMLElement, useState } from "react";
 
 const v3 = require("node-hue-api").v3;
 const LightState = v3.lightStates.LightState;
+
+console.log("hkwfyhfgdfhjk");
 
 const USERNAME = "yXTlszolo9DeYSSyUR5FbGk5QTLcc2jURwA9mQai";
 const LIGHT_ID = 5;
@@ -26,19 +30,28 @@ export interface HueUser {
   clientkey: string;
 }
 
+// async function lightState() {
+//   const lightSettings = LightState();
+// }
+
+console.log(LightState, "23r3r");
+
 async function getBridgeDetails() {
   const results = await v3.discovery.upnpSearch();
 
   if (results.length === 0) {
     console.error(`Couldn't find any bridges.`);
-    //return null;
   } else {
-    return results[0].ipaddress;
+    // return results[0].ipaddress;
+    return results;
   }
 }
 
 async function discoverAndCreateUser(): Promise<HueUser> {
-  const ipAddress = await getBridgeDetails();
+  const results = await getBridgeDetails();
+  console.log(results);
+
+  const ipAddress = results[0].ipaddress;
 
   if (!ipAddress) {
     console.error("IP Address not found");
@@ -70,14 +83,26 @@ async function discoverAndCreateUser(): Promise<HueUser> {
     // Create a new API instance that is authenticated with the new user we created
     const authenticatedApi = await v3.api
       .createLocal(ipAddress)
-      .connect(createdUser.username);
+      .connect(createdUser.username)
+      // .then((api: { configuration: { getConfiguration: () => any } }) => {
+      //   return api.configuration.getConfiguration();
+      // })
+      .then((api: { lights: { getAll: () => any } }) => {
+        return api.lights.getAll();
+      })
+      .then((allLights: any[]) => {
+        // Display the details of the lights we got back
+        console.log(JSON.stringify(allLights, null, 2));
 
-    // Do something with the authenticated user/api
-    const bridgeConfig =
-      await authenticatedApi.configuration.getConfiguration();
-    console.log(
-      `Connected to Hue Bridge: ${bridgeConfig.name} :: ${bridgeConfig.ipaddress}`
-    );
+        // Iterate over the light objects showing details
+        allLights.forEach((light: { toStringDetailed: () => any }) => {
+          console.log(light.toStringDetailed());
+        });
+      });
+
+    console.log(authenticatedApi);
+
+    console.log(createdUser);
     return createdUser;
   } catch (error) {
     const err = error as HueError;
@@ -93,34 +118,18 @@ async function discoverAndCreateUser(): Promise<HueUser> {
   }
 }
 
-// async function changeLightsToOff(): Promise<boolean> {
-//   try {
-//     const searchResults = await v3.discovery.nupnpSearch();
-//     const host = searchResults[0].ipaddress;
-//     const api = await v3.api.createLocal(host).connect(USERNAME);
-
-//     // Using a LightState object to build the desired state
-//     const state = new LightState().off();
-
-//     const result = await api.lights.setLightState(LIGHT_ID, state);
-//     console.log(`Light state change was successful? ${result}`);
-
-//     return result;
-//   } catch (error) {
-//     console.error("Error changing light state", error);
-//     return false;
-//   }
-// }
-
 export default async function Page() {
-  // const [lightStatus, setLightStatus] = useState(false);
-
-  // const updateCurrentLightStatus = async (newStatus: Promise<boolean>) => {
-  //   setLightStatus(await newStatus);
-  // };
-
   const bridgeInfo: BridgeInfo = await getBridgeDetails();
   const setupUser: HueUser = await discoverAndCreateUser();
+  // const lightState: any = await currentLightState();
+  // const allLights: any = await allLightState();
 
-  return <Setup bridgeInfo={bridgeInfo} setupUser={setupUser} />;
+  return (
+    <Setup
+      bridgeInfo={bridgeInfo}
+      setupUser={setupUser}
+      // lightState={lightState}
+      // allLights={allLights}
+    />
+  );
 }
